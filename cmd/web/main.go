@@ -44,8 +44,11 @@ func (app *application) serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	app.infoLog.Printf("Starting HTTP server in %s mode on port %d and api = %s and dbStruct = %s",
-		app.config.env, app.config.port, app.config.api, app.config.db.dsn)
+	// app.infoLog.Printf("Starting HTTP server in %s mode on port %d and api = %s and dbStruct = %s",
+	// 	app.config.env, app.config.port, app.config.api, app.config.db.dsn)
+
+	app.infoLog.Printf("Starting HTTP server in %s mode on \nhttp://localhost:%d/virtual-terminal",
+		app.config.env, app.config.port)
 
 	return srv.ListenAndServe()
 }
@@ -59,9 +62,7 @@ func main() {
 	flag.StringVar(&cfg.api, "api", "http://localhost:4001", "URL to api")
 	flag.StringVar(&cfg.db.dsn, "db connection", "zwei", "drei")
 
-	fmt.Println(">>>")
 	flag.Parse()
-	fmt.Println("<<<")
 
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
