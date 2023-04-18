@@ -22,7 +22,7 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        {{block}}
+        {{block "content" .}}
 
         {{end}}
       </div>
@@ -33,7 +33,7 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 </body>
-  {{block js .}}
+  {{block "js" .}}
   {{end}}
 </html>
 {{ end }}
