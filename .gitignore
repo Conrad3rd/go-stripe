@@ -13,3 +13,4 @@ bookings
 go.work
 Notes.md
 Makefile
+dist/*
