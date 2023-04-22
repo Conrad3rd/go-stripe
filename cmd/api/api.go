@@ -6,17 +6,14 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"text/template"
 	"time"
 )
 
 const version = "1.0.0"
-const cssVersion = "1"
 
 type config struct {
 	port int
 	env  string
-	api  string
 	db   struct {
 		dsn string
 	}
@@ -27,11 +24,10 @@ type config struct {
 }
 
 type application struct {
-	config        config
-	infoLog       *log.Logger
-	errorLog      *log.Logger
-	templateCache map[string]*template.Template
-	version       string
+	config   config
+	infoLog  *log.Logger
+	errorLog *log.Logger
+	version  string
 }
 
 func (app *application) serve() error {
@@ -44,11 +40,11 @@ func (app *application) serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	app.infoLog.Printf("Starting Back end server in %s mode on port %d and api = %s and dbStruct = %s",
-		app.config.env, app.config.port, app.config.api, app.config.db.dsn)
+	// app.infoLog.Printf("Starting Back end server in %s mode on port %d and api = %s and dbStruct = %s",
+	// 	app.config.env, app.config.port, app.config.api, app.config.db.dsn)
 
-	// app.infoLog.Printf("Starting HTTP server in %s mode on \nhttp://localhost:%d/virtual-terminal",
-	// 	app.config.env, app.config.port)
+	app.infoLog.Printf("Starting HTTP server in %s mode on \nhttp://localhost:%d/api/payment-intent",
+		app.config.env, app.config.port)
 
 	return srv.ListenAndServe()
 }
@@ -56,7 +52,7 @@ func (app *application) serve() error {
 func main() {
 	var cfg config
 
-	flag.IntVar(&cfg.port, "port", 4000, "Server port to listen on")
+	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Applicaton envriorment {development|production}")
 
 	flag.Parse()
@@ -71,6 +67,7 @@ func main() {
 		config:   cfg,
 		infoLog:  infoLog,
 		errorLog: errorLog,
+		version:  version,
 	}
 
 	err := app.serve()
