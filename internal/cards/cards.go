@@ -1,4 +1,4 @@
-package card
+package cards
 
 import (
 	"github.com/stripe/stripe-go/v72"
@@ -20,10 +20,10 @@ type Transaction struct {
 }
 
 func (c *Card) Charge(currency string, amount int) (*stripe.PaymentIntent, string, error) {
-	return c.CreatePaymantIntent(currency, amount)
+	return c.CreatePaymentIntent(currency, amount)
 }
 
-func (c *Card) CreatePaymantIntent(currency string, amount int) (*stripe.PaymentIntent, string, error) {
+func (c *Card) CreatePaymentIntent(currency string, amount int) (*stripe.PaymentIntent, string, error) {
 	stripe.Key = c.Secret
 
 	// create a payment intent
@@ -32,7 +32,8 @@ func (c *Card) CreatePaymantIntent(currency string, amount int) (*stripe.Payment
 		Currency: stripe.String(currency),
 	}
 
-	// params.AddMetadata("key", "value")
+	//params.AddMetadata("key", "value")
+
 	pi, err := paymentintent.New(params)
 	if err != nil {
 		msg := ""

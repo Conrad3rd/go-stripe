@@ -3,9 +3,9 @@ package main
 import (
 	"embed"
 	"fmt"
+	"html/template"
 	"net/http"
 	"strings"
-	"text/template"
 )
 
 type templateData struct {
@@ -27,19 +27,18 @@ var functions = template.FuncMap{}
 //go:embed templates
 var templateFS embed.FS
 
+
 func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {
 	return td
 }
 
-// page = name of the template
-// td = all the default data that will be passed to all templates
-// partials = Variadic function. that takes zero or many string
-// renderTemplate
 func (app *application) renderTemplate(w http.ResponseWriter, r *http.Request, page string, td *templateData, partials ...string) error {
 	var t *template.Template
 	var err error
 	templateToRender := fmt.Sprintf("templates/%s.page.gohtml", page)
+
 	_, templateInMap := app.templateCache[templateToRender]
+
 	if app.config.env == "production" && templateInMap {
 		t = app.templateCache[templateToRender]
 	} else {
@@ -80,13 +79,12 @@ func (app *application) parseTemplate(partials []string, page, templateToRender 
 		t, err = template.New(fmt.Sprintf("%s.page.gohtml", page)).Funcs(functions).ParseFS(templateFS, "templates/base.layout.gohtml", strings.Join(partials, ","), templateToRender)
 	} else {
 		t, err = template.New(fmt.Sprintf("%s.page.gohtml", page)).Funcs(functions).ParseFS(templateFS, "templates/base.layout.gohtml", templateToRender)
-
 	}
 	if err != nil {
 		app.errorLog.Println(err)
 		return nil, err
 	}
-	app.templateCache[templateToRender] = t
 
+	app.templateCache[templateToRender] = t
 	return t, nil
 }
