@@ -40,11 +40,7 @@ func (app *application) serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	// app.infoLog.Printf("Starting Back end server in %s mode on port %d and api = %s and dbStruct = %s",
-	// 	app.config.env, app.config.port, app.config.api, app.config.db.dsn)
-
-	app.infoLog.Printf("Starting HTTP server in %s mode on \nhttp://localhost:%d/api/payment-intent",
-		app.config.env, app.config.port)
+	app.infoLog.Println(fmt.Sprintf("Starting Back end server in %s mode on port %d", app.config.env, app.config.port))
 
 	return srv.ListenAndServe()
 }
@@ -53,7 +49,7 @@ func main() {
 	var cfg config
 
 	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen on")
-	flag.StringVar(&cfg.env, "env", "development", "Applicaton envriorment {development|production}")
+	flag.StringVar(&cfg.env, "env", "development", "Application enviornment {development|production|maintenance}")
 
 	flag.Parse()
 
@@ -61,7 +57,7 @@ func main() {
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	errorLog := log.New(os.Stdout, "ERRROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	app := &application{
 		config:   cfg,

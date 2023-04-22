@@ -29,7 +29,7 @@ build_back:
 
 ## start: starts front and back end
 start: start_front start_back
-	
+
 ## start_front: starts the front end
 start_front: build_front
 	@echo "Starting the front end..."
@@ -57,4 +57,3 @@ stop_back:
 	@echo "Stopping the back end..."
 	@-pkill -SIGTERM -f "gostripe_api -port=${API_PORT}"
 	@echo "Stopped back end"
-
