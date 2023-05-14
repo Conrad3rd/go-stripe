@@ -58,7 +58,7 @@
 {{end}}
 
 {{define "js"}}
-  <script src="https://js.stripe.com/v3"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 
   <script>
     let card;
@@ -67,14 +67,14 @@
     const payButton = document.getElementById("pay-button");
     const processing = document.getElementById("processing-payment");
 
-    stripe = Stripe('pk_test_51MyF6UAye214OvUG0o7sgkCPI70ScUr0NZxT5YhMsz1jLgJNG83Hmig0dBkddpzZAf4QikHNyy7UXci83K6Fr8iL00k2IC0ZtX')
+    stripe = Stripe('pk_test_51MyF6UAye214OvUG0o7sgkCPI70ScUr0NZxT5YhMsz1jLgJNG83Hmig0dBkddpzZAf4QikHNyy7UXci83K6Fr8iL00k2IC0ZtX');
 
     function hidePayButton() {
       payButton.classList.add("d-none");
       processing.classList.remove("d-none");
     }
 
-    function showPayButton() {
+    function showPayButtons() {
       payButton.classList.remove("d-none");
       processing.classList.add("d-none");
     }
@@ -121,7 +121,7 @@
         body: JSON.stringify(payload),
       }
 
-      fetch("https://localhost:4001/api/payment-intent", requestOptions)
+      fetch("http://localhost:4001/api/payment-intent", requestOptions)
         .then(response => response.text())
         .then(response => {
           let data;
