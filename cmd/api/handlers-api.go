@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/conrad3rd/myapp/internal/cards"
+	"github.com/go-chi/chi/v5"
 )
 
 type stripePayload struct {
@@ -75,7 +76,7 @@ func (app *application) GetPaymentIntent(w http.ResponseWriter, r *http.Request)
 }
 
 func (app *application) GetWidgetByID(w http.ResponseWriter, r *http.Request) {
-	id := chi.URLParamf(r, "id")
+	id := chi.URLParam(r, "id")
 	widgetID, _ := strconv.Atoi(id)
 
 	widget, err := app.DB.GetWidget(widgetID)

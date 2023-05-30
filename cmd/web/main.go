@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/conrad3rd/myapp/internal/driver"
+	"github.com/conrad3rd/myapp/internal/models"
 )
 
 const version = "1.0.0"
